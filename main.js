@@ -43,3 +43,11 @@ function Cell() {
     const isEmpty = () => cellValue === ''; // check if cell if empty
     return {changeCellValue, getValue, isEmpty};
 }
+
+function Player(name, number) {
+    const playerName = name;
+    const playerNum = number;
+    const getName = () => playerName;
+    const getNum = () => playerNum;
+    return {getName, getNum};
+}
