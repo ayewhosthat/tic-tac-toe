@@ -11,7 +11,7 @@ function GameBoard() {
             board[i].push(cell);
         }
     }
-    const getBoard = () => board; // fetch board
+    const getBoardElement = (row, col) => board[row][col]; // fetch board
 
     // display game board (only for console)
     const printBoard = () => {
@@ -23,7 +23,7 @@ function GameBoard() {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < columns; j++) {
                 const cell = board[i][j];
-                if (cell.getValue() !== '') {
+                if (cell.getValue() === '') {
                     return false;
                 }
             }
@@ -61,7 +61,7 @@ function GameBoard() {
      }
     }
 
-    return {getBoard, printBoard, isFull, hasWonGame};
+    return {getBoardElement, printBoard, isFull, hasWonGame};
 }
 
 
@@ -69,7 +69,7 @@ function Cell() {
     let cellValue = '';
     // change value of the cell if player decides to make a valid move
     const changeCellValue = (player) => {
-        cellValue = player.getNumber() === 1 ? "X" : "O";
+        cellValue = player.getNum() === 1 ? "X" : "O";
     }
     const getValue = () => cellValue;
     const isEmpty = () => cellValue === ''; // check if cell if empty
@@ -103,35 +103,29 @@ function GameController() {
         console.log(`${getActivePlayer().getName()}'s turn.`);
       };
 
-    const playRound = () => {
-        const userInput = prompt("Please enter the position at which you want to place your marker, e.g. 2,2 (0 to 2 inclusive):");
-        const row = Number.parseInt(userInput.split(',')[0].replace(' ', ''));
-        const column = Number.parseInt(userInput.split(',')[1].replace(' ', ''));
+    const playRound = (row, column) => {
+        let tie = board.isFull();
+        let won = board.hasWonGame(curr.getSymbol());
+        console.log(typeof row);
+        console.log(typeof column);
 
-        if (board[row][column].isEmpty()) {
+        printNewRound();
+
+        if (tie || won) {
+            console.log("Game over!");
+        }
+        else if (board.getBoardElement(row, column).isEmpty()) {
             // drop the token in the cell
-            board[row][column].changeCellValue(curr);
+            board.getBoardElement(row, column).changeCellValue(curr);
             switchPlayer();
-            printNewRound();
         }
         else {
             alert("Cell filled");
         }
     };
 
-    const playGame = () => {
-        let tie = board.hasWonGame(curr.getSymbol());
-        let full = board.isFull();
-        printNewRound();
-        while (!tie && !full) {
-            playRound();
-            tie = board.hasWonGame(curr.getSymbol());
-            full = board.isFull();
-        }  
-    };
 
-
-    return {printNewRound, playRound, playGame};
+    return {printNewRound, playRound};
 }
 
 const game = GameController();
