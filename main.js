@@ -22,7 +22,7 @@ function GameBoard() {
     const isFull = () => {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < columns; j++) {
-                const cell = board[i][j];
+                const cell = getBoardElement(i,j);
                 if (cell.getValue() === '') {
                     return false;
                 }
@@ -36,28 +36,28 @@ function GameBoard() {
             const conditions = [];
             // checks to see if any row, column, or diagonal has all three entries as the parameter 'symbol'
             // diagonals
-            const condition1 = board[0][0] === symbol && board[1][1] === symbol && board[2][2] === symbol;
+            const condition1 = getBoardElement(0,0).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(2,2).getValue() === symbol;
             conditions.push(condition1);
-            const condition2 = board[0][2] === symbol && board[1][1] === symbol && board[2][0] === symbol;
+            const condition2 = getBoardElement(0,2).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(2,0).getValue() === symbol;
             conditions.push(condition2);
             // rows
-            const condition3 = board[0][0] === symbol && board[0][1] === symbol && board[0][2] === symbol;
+            const condition3 = getBoardElement(0,0).getValue() === symbol && getBoardElement(0,1).getValue() === symbol && getBoardElement(0,2).getValue() === symbol;
             conditions.push(condition3);
-            const condition4 = board[1][0] === symbol && board[1][1] === symbol && board[1][2] === symbol;
+            const condition4 = getBoardElement(1,0).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(1,2).getValue() === symbol;
             conditions.push(condition4);
-            const condition5 = board[2][0] === symbol && board[2][1] === symbol && board[2][2] === symbol;
+            const condition5 = getBoardElement(2,0).getValue() === symbol && getBoardElement(2,1).getValue() === symbol && getBoardElement(2,2).getValue() === symbol;
             conditions.push(condition5);
             // columns
-            const condition6 = board[0][0] === symbol && board[1][0] === symbol && board[2][0] === symbol;
+            const condition6 = getBoardElement(0,0).getValue() === symbol && getBoardElement(1,0).getValue() === symbol && getBoardElement(2,0).getValue() === symbol;
             conditions.push(condition6);
-            const condition7 = board[0][1] === symbol && board[1][1] === symbol && board[2][1] === symbol;
+            const condition7 = getBoardElement(1,0).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(2,1).getValue() === symbol;
             conditions.push(condition7);
-            const condition8 = board[0][2] === symbol && board[1][2] === symbol && board[2][2] === symbol;
+            const condition8 = getBoardElement(2,0).getValue() === symbol && getBoardElement(2,1).getValue() === symbol && getBoardElement(2,2).getValue() === symbol;
             conditions.push(condition8);
 
             const gameOver = (condition) => condition === true;
             return conditions.some(gameOver);
-            // check if at least one win condition is satisfied}
+            // check if at least one win condition is satisfied
      }
     }
 
@@ -91,6 +91,9 @@ function GameController() {
     const player1 = Player("player 1", 1);
     const player2 = Player("player 2", 2);
     let curr = player1;
+    let won = board.hasWonGame(curr.getSymbol());
+    let full = board.isFull();
+
     // switch current player
     const switchPlayer = () => {
         curr = curr === player1 ? player2 : player1;
@@ -104,16 +107,28 @@ function GameController() {
       };
 
     const playRound = () => {
-        let userInput = prompt("Enter cell: ");
+        let userInput = prompt(`${curr.getName()}'s turn. Enter cell: `);
         const row = Number.parseInt(userInput.split(',')[0].replace(' ',''));
         const column = Number.parseInt(userInput.split(',')[1].replace(' ',''));
 
         if (board.getBoardElement(row, column).isEmpty()) {
             // drop the token in the cell
             board.getBoardElement(row, column).changeCellValue(curr);
-            if (!board.isFull()) {
-                switchPlayer(); // only switch if the game is not finished
+            printNewRound();
+            won = board.hasWonGame(curr.getSymbol());
+            full = board.isFull();
+            if (won) {
+                // this means that there was a 3 in a row, we check for this first before the board full check
+                console.log(`Game over! ${curr.getName()} wins!`);
+                return; // break out of loop from playGame()
             }
+            
+            } else if (!won && full) {
+                console.log("It's a draw!");
+                return;
+            }
+            if (!full) {
+                switchPlayer(); // only switch if the game is not finished
         }
         else {
             alert("Cell filled");
@@ -121,21 +136,13 @@ function GameController() {
     };
 
     const playGame = () => {
-        let won = board.hasWonGame(curr.getSymbol());
-        let full = board.isFull();
-        while (!won && !full) {
+        while (!full) {
             printNewRound();
             playRound();
         } 
-        if (won) {
-            // this means that there was a 3 in a row, we check for this first before the board full check
-            console.log(`Game over! ${curr.getName()} wins!`)
-        } else if (full) {
-            console.log("It's a draw!");
-        }
+        
+        board.printBoard();
     };
-
-
     return {printNewRound, playRound, playGame};
 }
 
