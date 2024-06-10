@@ -131,7 +131,7 @@ function GameController() {
     };
 
 
-    return {board, player1, player2, printNewRound, playRound, playGame};
+    return {printNewRound, playRound, playGame};
 }
 
 const game = GameController();
