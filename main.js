@@ -103,29 +103,40 @@ function GameController() {
         console.log(`${getActivePlayer().getName()}'s turn.`);
       };
 
-    const playRound = (row, column) => {
-        let tie = board.isFull();
-        let won = board.hasWonGame(curr.getSymbol());
-        console.log(typeof row);
-        console.log(typeof column);
+    const playRound = () => {
+        let userInput = prompt("Enter cell: ");
+        const row = Number.parseInt(userInput.split(',')[0].replace(' ',''));
+        const column = Number.parseInt(userInput.split(',')[1].replace(' ',''));
 
-        printNewRound();
-
-        if (tie || won) {
-            console.log("Game over!");
-        }
-        else if (board.getBoardElement(row, column).isEmpty()) {
+        if (board.getBoardElement(row, column).isEmpty()) {
             // drop the token in the cell
             board.getBoardElement(row, column).changeCellValue(curr);
-            switchPlayer();
+            if (!board.isFull()) {
+                switchPlayer(); // only switch if the game is not finished
+            }
         }
         else {
             alert("Cell filled");
         }
     };
 
+    const playGame = () => {
+        let won = board.hasWonGame(curr.getSymbol());
+        let full = board.isFull();
+        while (!won && !full) {
+            printNewRound();
+            playRound();
+        } 
+        if (won) {
+            // this means that there was a 3 in a row, we check for this first before the board full check
+            console.log(`Game over! ${curr.getName()} wins!`)
+        } else if (full) {
+            console.log("It's a draw!");
+        }
+    };
 
-    return {printNewRound, playRound};
+
+    return {printNewRound, playRound, playGame};
 }
 
 const game = GameController();
