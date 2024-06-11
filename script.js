@@ -75,3 +75,14 @@ function GameBoard() {
 
     return {getBoardElement, printBoard, isFull, hasWonGame};
 }
+
+function Cell() {
+    let cellValue = '';
+    // change value of the cell if player decides to make a valid move
+    const changeCellValue = (player) => {
+        cellValue = player.getNum() === 1 ? "X" : "O";
+    }
+    const getValue = () => cellValue;
+    const isEmpty = () => cellValue === ''; // check if cell if empty
+    return {changeCellValue, getValue, isEmpty};
+}
