@@ -86,7 +86,7 @@ function Cell() {
     let cellValue = '';
     // change value of the cell if player decides to make a valid move
     const changeCellValue = (player) => {
-        cellValue = player.getNum() === 1 ? "X" : "O";
+        cellValue = player.getNum() === 1 ? "❌" : "⭕";
     }
     const getValue = () => cellValue;
     const isEmpty = () => cellValue === ''; // check if cell if empty
@@ -94,7 +94,7 @@ function Cell() {
 }
 
 function Player(name, number) {
-    let symbol = number === 1 ? "X" : "O";
+    let symbol = number === 1 ? "❌" : "⭕";
     const getSymbol = () => symbol;
     const playerName = name;
     const playerNum = number;
@@ -163,7 +163,7 @@ function ScreenController() {
             const column = i % 3;
             game.playRound(row, column)
             updateBoard(i);
-            // let status = game.getGameStatus();
+            let status = game.getGameStatus();
             
         });
     }
