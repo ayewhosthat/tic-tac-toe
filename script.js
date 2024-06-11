@@ -86,3 +86,13 @@ function Cell() {
     const isEmpty = () => cellValue === ''; // check if cell if empty
     return {changeCellValue, getValue, isEmpty};
 }
+
+function Player(name, number) {
+    let symbol = number === 1 ? "X" : "O";
+    const getSymbol = () => symbol;
+    const playerName = name;
+    const playerNum = number;
+    const getName = () => playerName;
+    const getNum = () => playerNum;
+    return {getName, getNum, getSymbol};
+}
