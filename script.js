@@ -11,6 +11,7 @@ form.addEventListener('submit', (e) => {
     const p2Name = document.getElementById('p2name').value;
     p1 = Player(p1Name, 1);
     p2 = Player(p2Name, 2);
+    ScreenController();
     modal.close()
 });
 
@@ -27,7 +28,8 @@ function GameBoard() {
             board[i].push(cell);
         }
     }
-    const getBoardElement = (row, col) => board[row][col]; // fetch board
+
+    const getBoardElement = (row, col) => board[row][col]; // fetch board element
 
     // display game board (only for console)
     const printBoard = () => {
@@ -104,7 +106,9 @@ function Player(name, number) {
 function GameController() {
     const board = GameBoard();
     let curr = p1;
+    console.log(curr.getName());
     let gameStatus;
+    const getBoard = () => board;
 
     const switchPlayer = () => {
         curr = curr === p1 ? p2 : p1
@@ -137,5 +141,31 @@ function GameController() {
             alert("Cell filled");
         }
     };
-    return {switchPlayer, getActivePlayer, playRound, getGameStatus};
+    return {switchPlayer, getActivePlayer, playRound, getGameStatus, getBoard};
+}
+
+function ScreenController() {
+    const game = GameController(); // initialize our game
+    const buttons = document.querySelectorAll('button');
+
+    // function to update screen
+    const updateBoard = (n) => {
+        const row = Math.floor(n/3);
+        const column = n % 3;
+        buttons[n].textContent = game.getBoard().getBoardElement(row, column).getValue();
+    };
+
+    // add event listeners to buttons
+    for (let i = 0; i < buttons.length; i++) {
+        const gridBtn = buttons[i];
+        gridBtn.addEventListener('click', () => {
+            const row = Math.floor(i/3);
+            const column = i % 3;
+            game.playRound(row, column)
+            updateBoard(i);
+            // let status = game.getGameStatus();
+            
+        });
+    }
+    return {updateBoard}
 }
