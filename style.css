@@ -38,6 +38,24 @@ form {
 }
 
 button {
-    border: 2px solid white;
-    background-color: rgb(72, 72, 231);
+    border: 2px solid black;
+    background-color: whitesmoke;
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.grid {
+    justify-self: center;
+    align-self: center;
+    height: 80%;
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }

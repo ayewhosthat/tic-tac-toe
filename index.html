@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="main.js"></script>
+    <!-- dialog to submit player information -->
+     <dialog class="modal">
+        <form action="" method="dialog">
+            <div>
+                <label for="">Player 1 Name:</label>
+                <input name="player1" type="text" required>
+            </div>
+            <div>
+                <label for="">Player 2 Name:</label>
+                <input type="text" name="player2" required>
+            </div>
+            <input type="submit" value="Start!">
+        </form>
+     </dialog>
+
+     <div class="main">
+        <div class="grid">
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+            <div><button></button></div>
+        </div>
+        <div class="results">
+            <!-- dynamically add DOM elements displaying winner once game ends -->
+        </div>
+     </div>
+    <script src="script.js"></script>
 </body>
 </html>
