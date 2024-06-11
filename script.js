@@ -104,6 +104,7 @@ function Player(name, number) {
 function GameController() {
     const board = GameBoard();
     let curr = p1;
+    let gameStatus;
 
     const switchPlayer = () => {
         curr = curr === p1 ? p2 : p1
@@ -112,7 +113,29 @@ function GameController() {
         curr;
     };
 
-    const playRound = (row, column) => {
-        
+    const getGameStatus = () => {
+        gameStatus;
     };
+
+    const playRound = (row, column) => {
+        if (board.getBoardElement(row, column).isEmpty()) {
+            // drop the token in the cell
+            board.getBoardElement(row, column).changeCellValue(curr);
+            won = board.hasWonGame(curr.getSymbol());
+            full = board.isFull();
+            if (won) {
+                // this means that there was a 3 in a row, we check for this first before the board full check
+                gameStatus = "won";
+            } else if (!won && full) {
+                gameStatus = "draw";
+            }
+            if (!full) {
+                switchPlayer(); // only switch if the game is not finished
+            }
+        }
+        else {
+            alert("Cell filled");
+        }
+    };
+    return {switchPlayer, getActivePlayer, playRound, getGameStatus};
 }
