@@ -1,0 +1,13 @@
+@font-face {
+    font-family: jetbrains;
+    src: url("assets/JetBrainsMono-Regular.ttf");
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: jetbrains;
+}
