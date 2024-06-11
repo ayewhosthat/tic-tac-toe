@@ -1,13 +1,17 @@
 const form = document.querySelector('form');
 const modal = document.querySelector('.modal');
+let p1;
+let p2;
+// declaring players
 modal.showModal();
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const p1Name = document.getElementById('p1name').value;
     const p2Name = document.getElementById('p2name').value;
-    console.log(p1Name);
-    console.log(p2Name);
+    p1 = Player(p1Name, 1);
+    p2 = Player(p2Name, 2);
+    modal.close()
 });
 
 function GameBoard() {
@@ -95,4 +99,20 @@ function Player(name, number) {
     const getName = () => playerName;
     const getNum = () => playerNum;
     return {getName, getNum, getSymbol};
+}
+
+function GameController() {
+    const board = GameBoard();
+    let curr = p1;
+
+    const switchPlayer = () => {
+        curr = curr === p1 ? p2 : p1
+    };
+    const getActivePlayer = () => {
+        curr;
+    };
+
+    const playRound = (row, column) => {
+        
+    };
 }
