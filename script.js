@@ -1,9 +1,8 @@
 const form = document.querySelector('form');
 const modal = document.querySelector('.modal');
+modal.showModal();
 let p1;
 let p2;
-// declaring players
-modal.showModal();
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -106,16 +105,12 @@ function Player(name, number) {
 function GameController() {
     const board = GameBoard();
     let curr = p1;
-    console.log(curr.getName());
     let gameStatus;
     const getBoard = () => board;
-
     const switchPlayer = () => {
         curr = curr === p1 ? p2 : p1
     };
-    const getActivePlayer = () => {
-        curr;
-    };
+    const getActivePlayer = () => curr;
 
     const getGameStatus = () => {
         gameStatus;
@@ -133,7 +128,7 @@ function GameController() {
             } else if (!won && full) {
                 gameStatus = "draw";
             }
-            if (!full) {
+            if (!full && !won) {
                 switchPlayer(); // only switch if the game is not finished
             }
         }
@@ -153,6 +148,9 @@ function ScreenController() {
         const row = Math.floor(n/3);
         const column = n % 3;
         buttons[n].textContent = game.getBoard().getBoardElement(row, column).getValue();
+        const currPlayer = game.getActivePlayer().getName();
+        const text = document.querySelector('h2');
+        text.textContent = `Currently ${currPlayer}'s turn`;
     };
 
     // add event listeners to buttons
@@ -163,8 +161,6 @@ function ScreenController() {
             const column = i % 3;
             game.playRound(row, column)
             updateBoard(i);
-            let status = game.getGameStatus();
-            
         });
     }
     return {updateBoard}
