@@ -89,7 +89,8 @@ function Cell() {
     }
     const getValue = () => cellValue;
     const isEmpty = () => cellValue === ''; // check if cell if empty
-    return {changeCellValue, getValue, isEmpty};
+    const resetCell = () => {cellValue = ''};
+    return {changeCellValue, getValue, isEmpty, resetCell};
 }
 
 function Player(name, number) {
@@ -111,9 +112,11 @@ function GameController() {
         curr = curr === p1 ? p2 : p1
     };
     const getActivePlayer = () => curr;
-
     const getGameStatus = () => {
         gameStatus;
+    };
+    const resetActivePlayer = () => {
+        curr = p1;
     };
 
     const playRound = (row, column) => {
@@ -136,12 +139,17 @@ function GameController() {
             alert("Cell filled");
         }
     };
-    return {switchPlayer, getActivePlayer, playRound, getGameStatus, getBoard};
+    return {switchPlayer, getActivePlayer, playRound, getGameStatus, getBoard, resetActivePlayer};
 }
 
 function ScreenController() {
     const game = GameController(); // initialize our game
-    const buttons = document.querySelectorAll('button');
+    const buttons = document.querySelectorAll('.grid-btn');
+    const currPlayer = game.getActivePlayer().getName();
+    const text = document.querySelector('h2');
+    text.textContent = `Currently ${currPlayer}'s turn`;
+
+    const getGame = () => game;
 
     // function to update screen
     const updateBoard = (n) => {
@@ -163,5 +171,23 @@ function ScreenController() {
             updateBoard(i);
         });
     }
-    return {updateBoard}
+
+    // add event listener for reset button
+    const reset = document.querySelector('.reset');
+    reset.addEventListener('click', () => {
+        const gridSlots = document.querySelectorAll('.grid-btn');
+        for (let i = 0; i < gridSlots.length; i++) {
+            const slot = gridSlots[i];
+            slot.textContent = ''; // reset display text
+            // now reset actual cell value
+            let row = Math.floor(i/3);
+            let column = i % 3;
+            getGame().getBoard().getBoardElement(row, column).resetCell();
+        }
+        const resultsText = document.querySelector('h2');
+        resultsText.textContent = '';
+        getGame.resetActivePlayer();
+    });
+
+    return {updateBoard, getGame};
 }
