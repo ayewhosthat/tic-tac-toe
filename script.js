@@ -112,9 +112,7 @@ function GameController() {
         curr = curr === p1 ? p2 : p1
     };
     const getActivePlayer = () => curr;
-    const getGameStatus = () => {
-        gameStatus;
-    };
+    const getGameStatus = () => gameStatus;
     const resetActivePlayer = () => {
         curr = p1;
     };
@@ -158,6 +156,12 @@ function ScreenController() {
         const currPlayer = game.getActivePlayer().getName();
         const text = document.querySelector('h2');
         text.textContent = `Currently ${currPlayer}'s turn`;
+        let status = getGame().getGameStatus();
+        if (status === "won") {
+            text.textContent = `Game over! ${currPlayer} won`;
+        } else if (status === "draw") {
+            text.textContent = 'It\'s a draw!';
+        }
     };
 
     // add event listeners to buttons
