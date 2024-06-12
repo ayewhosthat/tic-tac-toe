@@ -67,9 +67,9 @@ function GameBoard() {
             // columns
             const condition6 = getBoardElement(0,0).getValue() === symbol && getBoardElement(1,0).getValue() === symbol && getBoardElement(2,0).getValue() === symbol;
             conditions.push(condition6);
-            const condition7 = getBoardElement(1,0).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(2,1).getValue() === symbol;
+            const condition7 = getBoardElement(0,1).getValue() === symbol && getBoardElement(1,1).getValue() === symbol && getBoardElement(2,1).getValue() === symbol;
             conditions.push(condition7);
-            const condition8 = getBoardElement(2,0).getValue() === symbol && getBoardElement(2,1).getValue() === symbol && getBoardElement(2,2).getValue() === symbol;
+            const condition8 = getBoardElement(0,2).getValue() === symbol && getBoardElement(1,2).getValue() === symbol && getBoardElement(2,2).getValue() === symbol;
             conditions.push(condition8);
 
             const gameOver = (condition) => condition === true;
@@ -162,8 +162,16 @@ function ScreenController() {
         let status = getGame().getGameStatus();
         if (status === "won") {
             text.textContent = `Game over! ${currPlayer} won`;
+            for (let k = 0; k < buttons.length; k++) {
+                const btn = buttons[k];
+                btn.disabled = true;
+            }
         } else if (status === "draw") {
             text.textContent = 'It\'s a draw!';
+            for (let k = 0; k < buttons.length; k++) {
+                const btn = buttons[k];
+                btn.disabled = true;
+            }
         }
     };
 
@@ -189,6 +197,7 @@ function ScreenController() {
             let row = Math.floor(i/3);
             let column = i % 3;
             getGame().getBoard().getBoardElement(row, column).resetCell();
+            slot.disabled = false;
         }
         const resultsText = document.querySelector('h2');
         resultsText.textContent = '';
