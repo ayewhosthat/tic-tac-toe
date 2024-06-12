@@ -37,25 +37,60 @@ form {
     gap: 16px;
 }
 
-button {
+.grid-btn {
     border: 2px solid black;
     background-color: whitesmoke;
     height: 100%;
     width: 100%;
+    font-size: 5rem;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
 }
 
 .main {
     height: 100%;
     display: grid;
-    grid-template-columns: 5fr 1fr;
+    grid-template-rows: 1fr 4fr 1fr;
 }
 
 .grid {
     justify-self: center;
     align-self: center;
     height: 80%;
-    width: 50%;
+    width: 40%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    aspect-ratio: 1;
+}
+
+.results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.reset {
+    height: fit-content;
+    width: fit-content;
+    font-size: 16px;
+    font-family: jetbrains;
+    font-weight: bold;
+    border-radius: 12px;
+    background-color: skyblue;
+    border: 2px solid black;
+    color: black;
+}
+
+.reset:hover {
+    border: 2px solid white;
+    color: white;
 }
