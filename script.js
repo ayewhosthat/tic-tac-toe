@@ -144,12 +144,11 @@ function GameController() {
 
 function ScreenController() {
     const game = GameController(); // initialize our game
+    const getGame = () => game;
     const buttons = document.querySelectorAll('.grid-btn');
-    const currPlayer = game.getActivePlayer().getName();
+    const currPlayer = getGame().getActivePlayer().getName();
     const text = document.querySelector('h2');
     text.textContent = `Currently ${currPlayer}'s turn`;
-
-    const getGame = () => game;
 
     // function to update screen
     const updateBoard = (n) => {
@@ -186,7 +185,8 @@ function ScreenController() {
         }
         const resultsText = document.querySelector('h2');
         resultsText.textContent = '';
-        getGame.resetActivePlayer();
+        getGame().resetActivePlayer();
+        text.textContent = `Currently ${getGame().getActivePlayer().getName()}'s turn`;
     });
 
     return {updateBoard, getGame};
