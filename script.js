@@ -116,6 +116,9 @@ function GameController() {
     const resetActivePlayer = () => {
         curr = p1;
     };
+    const resetGameStatus = () => {
+        gameStatus = '';
+    }
 
     const playRound = (row, column) => {
         if (board.getBoardElement(row, column).isEmpty()) {
@@ -137,7 +140,7 @@ function GameController() {
             alert("Cell filled");
         }
     };
-    return {switchPlayer, getActivePlayer, playRound, getGameStatus, getBoard, resetActivePlayer};
+    return {switchPlayer, getActivePlayer, playRound, getGameStatus, getBoard, resetActivePlayer, resetGameStatus};
 }
 
 function ScreenController() {
@@ -191,6 +194,7 @@ function ScreenController() {
         resultsText.textContent = '';
         getGame().resetActivePlayer();
         text.textContent = `Currently ${getGame().getActivePlayer().getName()}'s turn`;
+        getGame().resetGameStatus();
     });
 
     return {updateBoard, getGame};
